@@ -14,4 +14,3 @@
 ![img](./image/슬라이드16.JPG)
 ![img](./image/슬라이드17.JPG)
 ![img](./image/슬라이드18.JPG)
-![img](./image/슬라이드19.JPG)
