@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bt.user">
+	<insert id="btJoin" parameterType="map">
+		insert into BT_USER
+		values(BT_USER_idx.nextval,#{Uuserid},#{Upassword},#{Uname},#{Unickname},#{Usecondary},#{Usex},#{Uemail},#{Ubirthday},#{Uphone},#{Uzipcode},#{Uaddress1},#{Uaddress2},#{Uaddress3},0,0,0,0,sysdate,#{Uemailkey},0,0,0)
+	</insert>
+	<select id="btIdcheck" parameterType="map" resultType="int">
+		select
+		count(*) from BT_USER where Uuserid=#{Uuserid}
+	</select>
+	<select id="btNickcheck" parameterType="map" resultType="int">
+		select
+		count(*) from BT_USER where Unickname=#{Unickname}
+	</select>
+	<update id="btStatus" parameterType="map">
+		update BT_USER set Ustatus=1
+		where Uuserid=#{Uuserid}
+	</update>
+	<select id="btConfirm" parameterType="map" resultType="int">
+		select
+		count(*) from BT_USER where Uuserid=#{Uuserid} and Uemail=#{Uemail}
+		and Uemailkey=#{Uemailkey}
+	</select>
+	<select id="btLogin" parameterType="map" resultType="int">
+		select count(*) from BT_USER where Uuserid=#{Uuserid} and Upassword=#{Upassword}
+	</select>
+	<select id="btStatusCheck" parameterType="map" resultType="int">
+		select Ustatus from BT_USER where Uuserid=#{Uuserid}
+	</select>
+	<select id="myPage" resultType="bt.user.model.userDTO">
+		select * from BT_USER where
+		Uuserid=#{Uuserid}
+	</select>
+	<delete id="btDel" parameterType="map">
+		delete from BT_USER where
+		Uindex=#{Uindex}
+	</delete>
+	<select id="btIdFindCheck" resultType="String">
+		select Uuserid from
+		BT_USER where Uphone=#{Uphone} and Uemail=#{Uemail}
+	</select>
+	<select id="btEmailFind" resultType="String">
+		select Uemail from BT_USER
+		where Uphone=#{Uphone} and Uemail=#{Uemail}
+	</select>
+	<select id="btfindpasswordCheck" resultType="String">
+		select Uemail from
+		BT_USER where Uuserid=#{Uuserid} and
+		Usecondary=#{Usecondary}
+	</select>
+	<update id="btTempPassword" parameterType="map">
+		update BT_USER set
+		Upassword=#{Upassword} where Uuserid=#{Uuserid}
+	</update>
+	<update id="btUserEdit" parameterType="map">
+		update BT_USER set
+		Upassword=#{Upassword}, Uname=#{Uname},
+		Unickname=#{Unickname},
+		Ubirthday=#{Ubirthday}, Uphone=#{Uphone},
+		Uemail=#{Uemail},
+		Usecondary=#{Usecondary}, Uaddress1=#{Uaddress1},
+		Uaddress2=#{Uaddress2}, Uaddress3=#{Uaddress3} where Uindex=#{Uindex}
+	</update>
+	<select id="btQAEmailFind" resultType="String">
+		select Uemail from BT_USER
+		where Uuserid=#{Uuserid}
+	</select>
+	<select id="btGetBirthday" resultType="String">
+		select
+		TO_CHAR(Ubirthday,'YYYY-MM-DD') from BT_USER where Uuserid=#{Uuserid}
+	</select>
+	<select id="btGetEmailKey" resultType="String">
+		select Uemailkey from
+		BT_USER where Uuserid=#{Uuserid}
+	</select>
+	<update id="btNewEmail" parameterType="map">
+		update BT_USER set
+		Uemail=#{Uemail} where Uuserid=#{Uuserid}
+	</update>
+	<select id="btManager" resultType="int">
+		select Umanager from BT_USER
+		where Uuserid=#{Uuserid}
+	</select>
+	
+	<!-- Message -->
+	<select id="btMessage" resultType="bt.user.model.messageDTO">
+		select * from BT_Message
+		where Mreceiver=#{Mreceiver} order by Mindex desc
+	</select>
+	<select id="btMessageRead" resultType="bt.user.model.messageDTO">
+		select * from BT_Message where Mindex=#{Mindex}
+	</select>
+	<insert id="btMessageSend" parameterType="map">
+		insert into BT_Message values(BT_Message_idx.nextval,#{Msender},#{Mreceiver},#{Msubject},#{Mcontent},sysdate)
+	</insert>
+	<select id="btUserCheck" resultType="String">
+		select Uuserid from BT_USER where Uuserid=#{Uuserid}
+	</select>
+	<delete id="btDeleteMessage">
+		delete from BT_Message where Mindex=#{Mindex}
+	</delete>
+	<select id="btMessageNotice" resultType="Integer">
+		select count(Mreceiver) from BT_Message where Mreceiver=#{Mreceiver}
+	</select>
+	<select id="btBanLogin" resultType="Integer">
+  	   select Ubanned from BT_USER where Uuserid=#{Uuserid}
+	</select>
+</mapper>

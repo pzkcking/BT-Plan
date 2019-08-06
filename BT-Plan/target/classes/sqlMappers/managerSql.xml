@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bt.manager">
+	<select id="managerList" resultType="bt.manager.model.ManagerDTO">
+		select * from bt_user order by uindex desc
+	</select>
+	<select id="managerNameSearch" parameterType="String" resultType="bt.manager.model.ManagerDTO">
+		select * from bt_user where uname=#{keyword}
+	</select>
+	<select id="managerNicknameSearch" parameterType="String" resultType="bt.manager.model.ManagerDTO">
+		select * from bt_user where unickname=#{keyword}
+	</select>
+	<select id="managerIDSearch" parameterType="String" resultType="bt.manager.model.ManagerDTO">
+		select * from bt_user where uuserid=#{keyword}
+	</select>
+	<update id="managerBan" parameterType="bt.manager.model.ManagerDTO">
+		update bt_user set <![CDATA[ubanned=ubanned+1]]>
+		where uindex=#{uindex}
+	</update>
+	<update id="managerUnban" parameterType="bt.manager.model.ManagerDTO">
+		update bt_user set <![CDATA[ubanned=ubanned-1]]>
+		where uindex=#{uindex}
+	</update>
+	<!-- 
+	<select id="userTextCount" resultType="int">
+		select count(*) from bt_Text where tnickname=#{nickname}
+	</select>
+	<select id="userImageCount" resultType="int">
+		select count(*) from bt_image where Inickname=#{nickname}
+	</select>
+	<select id="userLoginCount" resultType="int">
+		select ulogincount from bt_user where unickname=#{nickname}
+	</select>
+	<select id="userTextCommentCount" resultType="int">
+		select count(*) from bt_Text_comment where cnickname=#{nickname}
+	</select>
+	<select id="userImageCommentCount" resultType="int">
+		select count(*) from bt_Image_comment where cnickname=#{nickname}
+	</select>
+	<select id="userTextBanCount" resultType="HashMap">
+		select tbanned,count (*) as textbannedCount from bt_text where
+		tnickname=#{nickname} group by tbanned HAVING COUNT(*)>1
+	</select>
+	 -->
+</mapper> 

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- controllers -->
+	<bean id="indexController" class="bt.controller.IndexController" />
+	<bean id="userController" class="bt.controller.UserController" />
+	<bean id="webFolderController" class="bt.controller.WebFolderController" />
+	<bean id="calendarController" class="bt.controller.CalendarController" />
+	<bean id="imageController" class="bt.controller.ImageController" />
+	<bean id="textController" class="bt.controller.TextController" />
+	<bean id="textCommentController" class="bt.controller.TextCommentController" />
+	<bean id="ManagerController" class="bt.controller.ManagerController" />
+	<bean id="StatisticsController" class="bt.controller.StatisticsController" />
+	
+
+	<!-- configs -->
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1073741824" />
+	</bean>
+
+	<!-- MyBatis configs -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="SYSTEM" />
+		<property name="password" value="1" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="sqlSessionFactoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml"></property>
+	</bean>
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactoryBean" />
+	</bean>
+
+	<!-- services -->
+	<bean class="bt.user.model.userDAOImple" id="userDAO">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="webFolderDao" class="bt.webFolder.model.WebFolderDAOimpl">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="calendarDao" class="bt.calendar.model.CalendarDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="imageBbsDao" class="bt.imageBbs.model.ImageBbsDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="textBbsDao" class="bt.textBbs.model.TextDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="textBbsCommentDao" class="bt.textBbsComment.model.TextCommentDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="ManagerDao" class="bt.manager.model.ManagerDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+	<bean id="statisticsDao" class="bt.statistics.model.StatisticsDAOImple">
+		<constructor-arg>
+			<ref bean="sqlSessionTemplate" />
+		</constructor-arg>
+	</bean>
+
+	<!-- view -->
+	<bean
+		class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+	<bean id="fileDownload" class="bt.view.DownloadView" />
+
+	<!-- mail -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		id="mailSender">
+		<property value="smtp.gmail.com" name="host" />
+		<property value="587" name="port" />
+		<property value="fivingo" name="username" />
+		<property value="qmffn%RE1ngg" name="password" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="textcomment">
+ 	<insert id="textcommentInsert" parameterType="bt.textBbsComment.model.TextCommentDTO">
+  		insert into BT_TEXT_COMMENT values(BT_TEXT_COMMENT_idx.nextval,
+  			#{ccontentindex},#{cnickname},#{ccomment},sysdate,0)
+  	</insert>
+  	<select id="textcommentList" parameterType="int" resultType="bt.textBbsComment.model.TextCommentDTO">
+		select * from BT_TEXT_COMMENT 
+		where ccontentindex = #{ccontentindex} order by ccontentindex desc
+	</select>
+	<delete id = "textcommentDelete" parameterType="int">
+		delete from BT_TEXT_COMMENT where cindex = #{cindex}
+	</delete>
+</mapper> 

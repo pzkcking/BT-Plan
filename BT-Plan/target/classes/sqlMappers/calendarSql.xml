@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="bt.calendar">  	
+  	<select id="calendarLogin" parameterType="HashMap" resultType="String">
+		<![CDATA[
+			select wrootname, wcodename from bt_webfolder
+			where wrootname=#{wrootname} and wcodename=#{wcodename}
+		]]>
+	</select>
+	
+  	<select id="calendarList" parameterType="HashMap" resultType="bt.calendar.model.CalendarDTO">
+		<![CDATA[
+			select cid, ctitle, cstart, cend, cdescription, ctype, cusername, cbackgroundcolor, ctextcolor 
+			from bt_calendar
+			where crootname=#{rootName} and
+			cstart like #{selDate}||'%'
+		]]>
+	</select>
+	
+ 	<insert id="calendarAdd" parameterType="bt.calendar.model.CalendarDTO">
+		insert into 
+		bt_calendar(cid, crootname, ctitle, cstart, cend, cdescription, ctype, cusername, cbackgroundcolor, ctextcolor) 
+		values(#{cid}, 
+				#{crootname}, 
+				#{ctitle}, 
+				#{cstart}, 
+				#{cend},
+				#{cdescription},
+				#{ctype},
+				#{cusername},
+				#{cbackgroundcolor},
+				#{ctextcolor})
+	</insert>
+	
+	<update id="calendarUpdate" parameterType="bt.calendar.model.CalendarDTO">
+  		update bt_calendar 
+  		set 
+  			ctitle=#{ctitle},
+  			cstart=#{cstart},
+  			cend=#{cend},
+  			cdescription=#{cdescription},
+  			ctype=#{ctype},
+  			cbackgroundcolor=#{cbackgroundcolor}
+  		where cid=#{cid}
+  	</update>
+  	
+  	<delete id="calendarDelete" parameterType="int">
+  		delete
+  			from bt_calendar
+  			where cid=#{cid}
+  	</delete>
+  	
+	<update id="calendarDragDropUpdate" parameterType="bt.calendar.model.CalendarDTO">
+  		update bt_calendar 
+  		set 
+  			cstart=#{cstart},
+  			cend=#{cend}
+  		where cid=#{cid}
+  	</update>
+  	
+  </mapper>

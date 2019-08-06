@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="text">
+	<insert id="textInsert" parameterType="bt.textBbs.model.TextDTO">
+		insert into BT_TEXT values(BT_TEXT_idx.nextval, #{tnickname},#{ttitle},#{tcontent},sysdate,#{tcategory},0,0,0)
+	</insert>
+	<select id="textList" parameterType="HashMap"
+		resultType="bt.textBbs.model.TextDTO">
+		select * from
+		(select rownum as rnum, a.* from
+		(select * from BT_TEXT order by tindex desc) a) b
+		where rnum<![CDATA[>=]]>#{startnum}
+		and rnum<![CDATA[<=]]>#{endnum}
+	</select>
+	<select id="textTotalCnt" resultType="java.lang.Integer">
+		select count(*) from BT_TEXT
+	</select>
+	<select id="textContent" parameterType="int"
+		resultType="bt.textBbs.model.TextDTO">
+		select * from BT_TEXT where tindex = #{tindex}
+	</select>
+	<delete id="textDelete" parameterType="int">
+		delete from BT_TEXT where tindex = #{tindex}
+	</delete>
+	<select id="textUpdateView" parameterType="int"
+		resultType="bt.textBbs.model.TextDTO">
+		select * from BT_TEXT where tindex = #{tindex}
+	</select>
+	<update id="textUpdate" parameterType="bt.textBbs.model.TextDTO">
+		update BT_TEXT
+		set
+		tviewcount = #{tviewcount},
+		tnickname = #{tnickname},
+		ttitle = #{ttitle},
+		tcontent = #{tcontent},
+		tpostdate = sysdate,
+		tcategory = #{tcategory}
+		where tindex = #{tindex}
+	</update>
+	<update id="textViewCount">
+		update BT_TEXT set tviewcount = tviewcount+1 where tindex = #{tindex}
+	</update>
+	<update id="textLikeCount" parameterType="int">
+		update BT_TEXT set tlikecount = tlikecount+1 where tindex = #{tindex}
+	</update>
+
+	<select id="textcategory" parameterType="HashMap"
+		resultType="bt.textBbs.model.TextDTO">
+		select * from BT_TEXT where tcategory = #{tag} order by tindex desc
+	</select>
+<!-- 
+	<select id="textlogin" parameterType="map" resultType="Integer">
+		select
+		count(*) from member where tnickname = #{tnickname} and tpassword =
+		#{tpassword}
+	</select>
+ -->
+
+</mapper>
+	

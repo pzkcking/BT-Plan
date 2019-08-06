@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bt.statistics">
+	<select id="manageConnectionCount"
+		resultType="bt.statistics.model.StatisticsDTO">
+		select * from bt_manager where mindex=1
+	</select>
+	<select id="countmember" resultType="HashMap">
+		select count (*) as memberCount from bt_user
+	</select>
+	<select id="bancount" resultType="HashMap">
+		select ubanned,count (*) as bannedCount from bt_user group by ubanned HAVING
+		COUNT(*)>1
+	</select>
+	<select id="calculateAge" resultType="HashMap">
+		SELECT
+		NVL(TRUNC(MONTHS_BETWEEN(sysdate,TO_date(SUBSTR(to_char(ubirthday,'yyyy-mm-dd'),1,10),
+		'YYYY-mm-dd'))/12),0) as AGE from bt_user
+	</select>
+	<select id="age_10" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '19' year,'yyyymmdd') and
+		to_char(sysdate-interval '10' year,'yyyymmdd')
+	</select>
+	<select id="age_20" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '29' year,'yyyymmdd') and
+		to_char(sysdate-interval '20' year,'yyyymmdd')
+	</select>
+	<select id="age_30" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '39' year,'yyyymmdd') and
+		to_char(sysdate-interval '30' year,'yyyymmdd')
+	</select>
+	<select id="age_40" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '49' year,'yyyymmdd') and
+		to_char(sysdate-interval '40' year,'yyyymmdd')
+	</select>
+	<select id="age_50" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '59' year,'yyyymmdd') and
+		to_char(sysdate-interval '50' year,'yyyymmdd')
+	</select>
+	<select id="age_60" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday between to_char(sysdate-interval '69' year,'yyyymmdd') and
+		to_char(sysdate-interval '60' year,'yyyymmdd')
+	</select>
+	<select id="age_etc" resultType="int">
+		select count (uname) as AGE from bt_user
+		where ubirthday not between to_char(sysdate-interval '69' year,'yyyymmdd')
+		and to_char(sysdate-interval '10' year,'yyyymmdd')
+	</select>
+	<select id="gender_male" resultType="int">
+		select count(*)from bt_user where usex='male'
+	</select>
+	<select id="gender_female" resultType="int">
+		select count(*)from bt_user where usex='female'
+	</select>
+	<select id="textCount" resultType="int">
+		select count(*) as textCount from bt_text
+	</select>
+	<select id="imageCount" resultType="int">
+		select count(*) as textCount from bt_image
+	</select>
+</mapper> 

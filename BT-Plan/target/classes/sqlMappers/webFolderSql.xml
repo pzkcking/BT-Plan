@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-Mapper.dtd">
+<mapper namespace="BT.webFolder">
+	<select id="rootLogin" parameterType="String" resultType="bt.webFolder.model.WebFolderDTO">
+		SELECT * FROM bt_webFolder WHERE wrootname = #{wrootName}
+	</select>
+	<insert id="rootCreate" parameterType="bt.webFolder.model.WebFolderDTO">
+		INSERT INTO bt_webFolder
+		VALUES (bt_webFolder_idx.nextval, #{wrootName}, #{wcodeName})
+	</insert>
+	<select id="rootNameCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM bt_webFolder WHERE wrootname = #{wrootName}
+	</select>
+	<select id="findCode" parameterType="String" resultType="String">
+		SELECT wcodename FROM bt_webFolder WHERE wrootname = #{wrootName}
+	</select>
+	<update id="changeCode" parameterType="bt.webFolder.model.WebFolderDTO">
+		UPDATE bt_webFolder SET wcodename = #{wcodeName} WHERE wrootname = #{wrootName}
+	</update>
+</mapper>

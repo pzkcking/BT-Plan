@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="bt.image">
+	<select id="imageBbsTotalCnt" resultType="bt.imageBbs.model.ImageBbsDTO">
+		select * from BT_IMAGE
+	</select>
+ 		
+	<select id="imageBbsList" parameterType="HashMap" resultType="bt.imageBbs.model.ImageBbsDTO">
+		<![CDATA[
+			select * from 
+				(select rownum as rnum, a.* from 
+				(select * from bt_image order by iindex desc) a) b 
+			where rnum >= ${startnum} and rnum <= ${endnum}
+		]]>
+	</select>
+ 	
+ 	<insert id="imageBbsWrite" parameterType="bt.imageBbs.model.ImageBbsDTO">
+		insert into 
+		bt_image(iindex, inickname, ititle, iimagename, ipostdate, iviewcount, ilikecount, icommentnumber) 
+		values(bt_image_idx.nextval,
+				#{inickname}, 
+				#{ititle}, 
+				#{iimagename}, 
+				sysdate,
+				#{iviewcount},
+				#{ilikecount},
+				#{icommentnumber})
+	</insert>
+	
+	<select id="imageBbsContent" parameterType="int" resultType="bt.imageBbs.model.ImageBbsDTO">
+		select * from bt_image where iindex=#{iindex}
+	</select>
+ 	
+ 	<select id="imageBbsContentImageName" parameterType="int" resultType="bt.imageBbs.model.ImageBbsDTO">
+		select iimagename from bt_image where iindex=#{index}
+	</select>
+	
+  	<delete id="imageBbsDelete" parameterType="int">
+  		delete
+  			from bt_image
+  			where iindex=#{index}
+  	</delete>
+  	
+  	
+	<update id="imageBbsIncreaseCommentNumber" parameterType="int">
+  		update bt_image 
+  		set 
+  			icommentnumber=icommentnumber + 1
+  		where iindex=#{idx}
+  	</update>
+  	
+	<update id="imageBbsIncreaseViewCount" parameterType="int">
+  		update bt_image 
+  		set 
+  			iviewcount=iviewcount + 1
+  		where iindex=#{idx}
+  	</update>
+  	
+	<update id="imageBbsIncreaseLikeCount" parameterType="int">
+  		update bt_image 
+  		set 
+  			ilikecount=ilikecount + 1
+  		where iindex=#{idx}
+  	</update>
+  	
+  	
+  	
+  	<select id="imageBbsSearchByNickNameTotalCnt" parameterType="String" resultType="bt.imageBbs.model.ImageBbsDTO">
+		select * from bt_image where inickname=#{nickName}
+	</select>
+ 		
+	<select id="imageBbsSearchByNickNameList" parameterType="HashMap" resultType="bt.imageBbs.model.ImageBbsDTO">
+		<![CDATA[
+			select * from 
+				(select rownum as rnum, a.* from 
+				(select * from bt_image where inickname=#{nickName} order by iindex desc) a ) b 
+			where rnum >= ${startnum} and rnum <= ${endnum}
+		]]>
+	</select>
+  	
+  	<select id="imageBbsGetLikeTotalCountData" parameterType="int" resultType="bt.imageBbs.model.ImageBbsDTO">
+		select ilikecount from bt_image where iindex=#{idx}
+	</select>
+	
+	
+	
+	<delete id="imageBbsCommentDelete" parameterType="int">
+  		delete
+  			from bt_image_comment
+  			where ccontentindex=#{contentindex}
+  	</delete>
+	
+ 	<select id="imageBbsCommentTotalCnt" parameterType="int" resultType="bt.imageBbs.model.ImgBbsCommentDTO">
+		select * from bt_image_comment where ccontentindex=#{contentIndex}
+	</select>
+ 		
+	<select id="imageBbsCommentList" parameterType="HashMap" resultType="bt.imageBbs.model.ImgBbsCommentDTO">
+		<![CDATA[
+			select ccontentindex, cnickname, ccomment, cpostdate from 
+				(select rownum as rnum, a.* from 
+				(select * from bt_image_comment where ccontentindex=#{contentIndex} order by cindex desc) a ) b 
+			where rnum >= ${startnum} and rnum <= ${endnum}
+		]]>
+	</select>
+	
+	<insert id="imageBbsCommentWrite" parameterType="bt.imageBbs.model.ImgBbsCommentDTO">
+		insert into 
+		bt_image_comment(cindex, ccontentindex, cnickname, ccomment, cpostdate) 
+		values(bt_image_comment_idx.nextval,
+				#{ccontentindex}, 
+				#{cnickname}, 
+				#{ccomment}, 
+				sysdate)
+	</insert>
+	
+</mapper>

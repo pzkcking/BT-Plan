@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<mappers>
+		<mapper resource="sqlMappers/userSql.xml" />
+		<mapper resource="sqlMappers/webFolderSql.xml" />
+		<mapper resource="sqlMappers/imageBbsSql.xml" />
+		<mapper resource="sqlMappers/calendarSql.xml" />
+		<mapper resource="sqlMappers/textSql.xml" />
+		<mapper resource="sqlMappers/textcommentSql.xml" />
+		<mapper resource="sqlMappers/statisticsSql.xml"/>
+		<mapper resource="sqlMappers/managerSql.xml"/>
+	</mappers>
+</configuration>
