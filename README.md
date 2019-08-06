@@ -1,5 +1,9 @@
 # BT-Plan
 ### 정희성
+### 패키지 구조
+### userController
+### bt.user.model
+### user folder
 ![img](./image/슬라이드2.JPG)
 ![img](./image/슬라이드3.JPG)
 ![img](./image/슬라이드4.JPG)
