@@ -108,8 +108,8 @@
 		id="mailSender">
 		<property value="smtp.gmail.com" name="host" />
 		<property value="587" name="port" />
-		<property value="fivingo" name="username" />
-		<property value="qmffn%RE1ngg" name="password" />
+		<property value="메일사용자 이름" name="username" />
+		<property value="비밀번호" name="password" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.transport.protocol">smtp</prop>
